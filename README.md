@@ -1,4 +1,4 @@
-#Cocos2dx-UIKit
+#Cocos2dx UIKit
 
 This is an example of how to integrate iOS UIKit with Cocos2d-x
 
