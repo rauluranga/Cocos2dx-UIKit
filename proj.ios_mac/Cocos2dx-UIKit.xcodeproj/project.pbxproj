@@ -59,6 +59,9 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
+		A0E221521CF5D8D80001101B /* HelloWorldModalScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0E221501CF5D8D80001101B /* HelloWorldModalScene.cpp */; };
+		A0E221561CF5DA4F0001101B /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0E221541CF5DA4F0001101B /* InitialViewController.m */; };
+		A0E221571CF5DA4F0001101B /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0E221551CF5DA4F0001101B /* InitialViewController.xib */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -77,6 +80,9 @@
 		C418740C1BA784A1001A785A /* MenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C41874041BA784A1001A785A /* MenuViewController.xib */; };
 		C41874131BA78512001A785A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C41874121BA78512001A785A /* SWRevealViewController.m */; };
 		C41874161BA789A9001A785A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41874151BA789A9001A785A /* MapKit.framework */; };
+		C4594EC11CF75F3900ABEEB6 /* cocos2dx-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = C4594EBE1CF75F3900ABEEB6 /* cocos2dx-landscape.png */; };
+		C4594EC21CF75F3900ABEEB6 /* cocos2dx-landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4594EBF1CF75F3900ABEEB6 /* cocos2dx-landscape@2x.png */; };
+		C4594EC31CF75F3900ABEEB6 /* cocos2dx-landscape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4594EC01CF75F3900ABEEB6 /* cocos2dx-landscape@3x.png */; };
 		D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
@@ -166,6 +172,11 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A0E221501CF5D8D80001101B /* HelloWorldModalScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldModalScene.cpp; sourceTree = "<group>"; };
+		A0E221511CF5D8D80001101B /* HelloWorldModalScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldModalScene.h; sourceTree = "<group>"; };
+		A0E221531CF5DA4F0001101B /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = ios/InitialViewController.h; sourceTree = SOURCE_ROOT; };
+		A0E221541CF5DA4F0001101B /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = ios/InitialViewController.m; sourceTree = SOURCE_ROOT; };
+		A0E221551CF5DA4F0001101B /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialViewController.xib; path = ios/InitialViewController.xib; sourceTree = SOURCE_ROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -189,6 +200,9 @@
 		C41874111BA78512001A785A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = ios/vendor/SWRevealViewController/SWRevealViewController.h; sourceTree = SOURCE_ROOT; };
 		C41874121BA78512001A785A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = ios/vendor/SWRevealViewController/SWRevealViewController.m; sourceTree = SOURCE_ROOT; };
 		C41874151BA789A9001A785A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/MapKit.framework; sourceTree = DEVELOPER_DIR; };
+		C4594EBE1CF75F3900ABEEB6 /* cocos2dx-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cocos2dx-landscape.png"; sourceTree = "<group>"; };
+		C4594EBF1CF75F3900ABEEB6 /* cocos2dx-landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cocos2dx-landscape@2x.png"; sourceTree = "<group>"; };
+		C4594EC01CF75F3900ABEEB6 /* cocos2dx-landscape@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cocos2dx-landscape@3x.png"; sourceTree = "<group>"; };
 		D44C620B132DFF330009C878 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -248,6 +262,9 @@
 				5087E77117EB970100C73F5D /* Icons */,
 				503AE0FA17EB989F00D1A890 /* AppController.h */,
 				503AE0FB17EB989F00D1A890 /* AppController.mm */,
+				A0E221531CF5DA4F0001101B /* InitialViewController.h */,
+				A0E221541CF5DA4F0001101B /* InitialViewController.m */,
+				A0E221551CF5DA4F0001101B /* InitialViewController.xib */,
 				503AE0FC17EB989F00D1A890 /* main.m */,
 				503AE0FD17EB989F00D1A890 /* Prefix.pch */,
 				C41873F91BA784A1001A785A /* CouponViewController.h */,
@@ -338,6 +355,9 @@
 				C41873F01BA78465001A785A /* coupon@2x.jpg */,
 				C41873F11BA78465001A785A /* get-coupon-button.png */,
 				C41873F21BA78465001A785A /* menu.png */,
+				C4594EBE1CF75F3900ABEEB6 /* cocos2dx-landscape.png */,
+				C4594EBF1CF75F3900ABEEB6 /* cocos2dx-landscape@2x.png */,
+				C4594EC01CF75F3900ABEEB6 /* cocos2dx-landscape@3x.png */,
 				C41873F31BA78465001A785A /* menu@2x.png */,
 			);
 			name = Resources;
@@ -351,6 +371,8 @@
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */,
 				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
+				A0E221511CF5D8D80001101B /* HelloWorldModalScene.h */,
+				A0E221501CF5D8D80001101B /* HelloWorldModalScene.cpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -522,6 +544,7 @@
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
+				C4594EC21CF75F3900ABEEB6 /* cocos2dx-landscape@2x.png in Resources */,
 				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
@@ -534,12 +557,15 @@
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
+				C4594EC31CF75F3900ABEEB6 /* cocos2dx-landscape@3x.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				C41873F61BA78465001A785A /* get-coupon-button.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				C41873F51BA78465001A785A /* coupon@2x.jpg in Resources */,
+				A0E221571CF5DA4F0001101B /* InitialViewController.xib in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				C418740A1BA784A1001A785A /* LocatorViewController.xib in Resources */,
+				C4594EC11CF75F3900ABEEB6 /* cocos2dx-landscape.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				C418740C1BA784A1001A785A /* MenuViewController.xib in Resources */,
@@ -578,6 +604,8 @@
 				C41874131BA78512001A785A /* SWRevealViewController.m in Sources */,
 				C41874071BA784A1001A785A /* GameViewController.mm in Sources */,
 				C41874091BA784A1001A785A /* LocatorViewController.m in Sources */,
+				A0E221561CF5DA4F0001101B /* InitialViewController.m in Sources */,
+				A0E221521CF5D8D80001101B /* HelloWorldModalScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "AppController.h"
 #import "SWRevealViewController.h"
+#import "InitialViewController.h"
 #include "HelloWorldScene.h"
 
 
@@ -23,10 +24,10 @@ static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 
 @interface GameViewController () {
-    __weak IBOutlet UIButton *_menuButton;
+    
   }
 
-  @property (weak, nonatomic) IBOutlet UIButton *menuButton;
+  @property (strong, nonatomic) IBOutlet UIButton *menuButton;
   @property (strong, nonatomic) CCEAGLView *eaglView;
   @property (strong, nonatomic) CouponViewController *coupon_vc;
   @property (nonatomic) BOOL isCouponActive;
@@ -38,7 +39,6 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 
 @implementation GameViewController
 
-@synthesize menuButton = _menuButton;
 @synthesize eaglView = _eaglView;
 
 - (CouponViewController *)coupon_vc
@@ -69,6 +69,14 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    cocos2d::Application *app = cocos2d::Application::getInstance();
+    app->initGLContextAttrs();
+    cocos2d::GLViewImpl::convertAttrs();
+
+        cocos2d::EventListenerCustom *_listener;
+    
+    if([self.presentationStyle isEqualToString:@"Navigation"]){
+    
     SWRevealViewController *revealViewController = self.revealViewController;
     if ( revealViewController )
     {
@@ -77,31 +85,29 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
                   forControlEvents:UIControlEventTouchUpInside];
     }
     
-    cocos2d::Application *app = cocos2d::Application::getInstance();
-    app->initGLContextAttrs();
-    cocos2d::GLViewImpl::convertAttrs();
-    
-    // Init the CCEAGLView
-    CCEAGLView *_ccEAGLView = [CCEAGLView viewWithFrame: [[UIScreen mainScreen] bounds]
-                                         pixelFormat: (NSString*)cocos2d::GLViewImpl::_pixelFormat
-                                         depthFormat: cocos2d::GLViewImpl::_depthFormat
-                                  preserveBackbuffer: NO
-                                          sharegroup: nil
-                                       multiSampling: NO
-                                     numberOfSamples: 0 ];
-    
-    // Enable or disable multiple touches
-    [_ccEAGLView setMultipleTouchEnabled:NO];
-    
-    [self.view insertSubview:_ccEAGLView atIndex:0];
-    
+        
+        self.menuButton.hidden=NO;
+        self.eaglView = [CCEAGLView viewWithFrame: [[UIScreen mainScreen] bounds]
+                                      pixelFormat: (NSString*)cocos2d::GLViewImpl::_pixelFormat
+                                      depthFormat: cocos2d::GLViewImpl::_depthFormat
+                               preserveBackbuffer: NO
+                                       sharegroup: nil
+                                    multiSampling: NO
+                                  numberOfSamples: 0 ];
+        
+        // Enable or disable multiple touches
+        [self.eaglView setMultipleTouchEnabled:NO];
+        
+        [self.view insertSubview:self.eaglView atIndex:0];
+        
+   
     // IMPORTANT: Setting the GLView should be done after creating the RootViewController
-    cocos2d::GLView *glview = cocos2d::GLViewImpl::createWithEAGLView(_ccEAGLView);
+    cocos2d::GLView *glview = cocos2d::GLViewImpl::createWithEAGLView(self.eaglView);
     cocos2d::Director::getInstance()->setOpenGLView(glview);
     
     //*/
     //@see http://www.cocos2d-x.org/wiki/EventDispatcher_Mechanism
-    cocos2d::EventListenerCustom *_listener = cocos2d::EventListenerCustom::create("game_custom_event1", [=](cocos2d::EventCustom* event){
+    _listener = cocos2d::EventListenerCustom::create("game_custom_event1", [=](cocos2d::EventCustom* event){
         printf("game_custom_event1\n");
         SWRevealViewController *rootController =(SWRevealViewController*)[[(AppController*)
                                                                            [[UIApplication sharedApplication]delegate] window] rootViewController];
@@ -115,8 +121,43 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
     
     AppDelegate *app_delegate = (AppDelegate*) app;
     app_delegate->setupMainScene();
+        
+   
     
-    self.eaglView = _ccEAGLView;
+    }else if([self.presentationStyle isEqualToString:@"Modal"]){
+        
+        self.menuButton.hidden=YES;
+        self.eaglView = [CCEAGLView viewWithFrame: [[UIScreen mainScreen] bounds]
+                                      pixelFormat: (NSString*)cocos2d::GLViewImpl::_pixelFormat
+                                      depthFormat: cocos2d::GLViewImpl::_depthFormat
+                               preserveBackbuffer: NO
+                                       sharegroup: nil
+                                    multiSampling: NO
+                                  numberOfSamples: 0 ];
+        
+        // Enable or disable multiple touches
+        [self.eaglView setMultipleTouchEnabled:NO];
+        
+        [self.view insertSubview:self.eaglView atIndex:0];
+        
+
+        // IMPORTANT: Setting the GLView should be done after creating the RootViewController
+        cocos2d::GLView *glview = cocos2d::GLViewImpl::createWithEAGLView(self.eaglView);
+        cocos2d::Director::getInstance()->setOpenGLView(glview);
+        
+        //*/
+        //@see http://www.cocos2d-x.org/wiki/EventDispatcher_Mechanism
+        _listener = cocos2d::EventListenerCustom::create("game_custom_event2", [=](cocos2d::EventCustom* event){
+            printf("game_custom_event2\n");
+            [self closeGameScene];
+            
+        
+        });
+        cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_listener, 1);
+        app->run();
+    }
+   
+    
     
 }
 
@@ -150,28 +191,44 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 
 -(void)viewDidDisappear:(BOOL)animated {
     NSLog(@"GameViewController.viewDidDisappear");
+    if([self.presentationStyle caseInsensitiveCompare:@"Navigation"] == NSOrderedSame){
     if(!self.isCouponActive) {
         cocos2d::Director::getInstance()->end();
         [self performSelector:@selector(cleanUp) withObject:nil afterDelay:0.45];
     }
+    }
+    [[NSNotificationCenter defaultCenter]removeObserver:self.eaglView];
+    if([self.presentationStyle caseInsensitiveCompare:@"Modal"] == NSOrderedSame){
+        
+        [self cleanUp];
+    }
+    
+
 }
 
+-(void)closeGameScene{
+    
+    cocos2d::Director::getInstance()->end();
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+}
 -(void)cleanUp {
-    if (_eaglView) {
-        [_eaglView release];
-        _eaglView = nil;
+    
+    
+    if (self.eaglView) {
+        
+        self.eaglView = nil;
     }
     
     if (_coupon_vc) {
-        [_coupon_vc release];
-        _eaglView = nil;
+        
+        self.eaglView = nil;
     }
     _menuButton = nil;
 }
 
 - (void)viewDidUnload {
     NSLog(@"GameViewController.viewDidUnload");
-    [self cleanUp];
     [super viewDidUnload];
 }
 

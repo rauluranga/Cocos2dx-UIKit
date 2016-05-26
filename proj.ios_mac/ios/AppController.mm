@@ -3,6 +3,7 @@
 #import "SWRevealViewController.h"
 #import "MenuViewController.h"
 #import "GameViewController.h"
+#import "InitialViewController.h"
 #import "AppDelegate.h"
 #import "LocatorViewController.h"
 
@@ -16,23 +17,17 @@ static AppDelegate s_sharedApplication;
 @implementation AppController
 
 @synthesize window = _window;
-@synthesize viewController = _viewController;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window = window;
     
-    MenuViewController *rightViewController = [[MenuViewController alloc] init];
-    GameViewController *frontViewController = [[GameViewController alloc] init];
+    InitialViewController *initialVC = [[InitialViewController alloc]init];
     
-    SWRevealViewController *mainRevealController = [[SWRevealViewController alloc] init];
-    [mainRevealController setRightViewController:rightViewController];
-    [mainRevealController setFrontViewController:frontViewController];
+    self.window.rootViewController = initialVC;
     
-    self.viewController = mainRevealController;
-    
-    self.window.rootViewController = mainRevealController;
     [self.window makeKeyAndVisible];
 
     return YES;
