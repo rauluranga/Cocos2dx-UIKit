@@ -11,4 +11,7 @@
 @interface GameViewController : UIViewController
 -(void)showCoupon;
 -(void)hideCoupon;
+-(void)closeGameScene;
+@property (strong,nonatomic) NSString* presentationStyle;
+
 @end
