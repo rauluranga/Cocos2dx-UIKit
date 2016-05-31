@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface InitialViewController : UIViewController<UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UIButton *goButton;
-@property (weak, nonatomic) IBOutlet UITextField *initialTextField;
-- (IBAction)goButtonAction:(id)sender;
+- (IBAction)modalButtonAction:(id)sender;
+- (IBAction)swButtonAction:(id)sender;
 
 @end

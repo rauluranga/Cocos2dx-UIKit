@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -7,8 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InitialViewController">
             <connections>
-                <outlet property="goButton" destination="vch-MD-wcc" id="DBE-2n-YZ5"/>
-                <outlet property="initialTextField" destination="4xw-Lm-5oZ" id="whJ-m7-xt5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,46 +15,60 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4xw-Lm-5oZ">
-                    <rect key="frame" x="90" y="220" width="214" height="30"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter your choice-Modal or navigation " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="af0-e3-Efc">
-                    <rect key="frame" x="48" y="180" width="297" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Cocos2d-x on UIKit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1XD-NT-QZC">
+                    <rect key="frame" x="54" y="174" width="269" height="21"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vch-MD-wcc">
-                    <rect key="frame" x="165" y="304" width="69" height="30"/>
-                    <state key="normal" title="Go"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fWf-aL-0zO">
+                    <rect key="frame" x="64" y="363" width="249" height="30"/>
+                    <state key="normal" title="Cocos2d-x SWRevealViewController"/>
                     <connections>
-                        <action selector="goButtonAction:" destination="-1" eventType="touchUpInside" id="q4B-EV-pH6"/>
+                        <action selector="swButtonAction:" destination="-1" eventType="touchUpInside" id="nRe-gL-65e"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cocos 2d-x Game-Modal view" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xFD-Tp-MXn">
-                    <rect key="frame" x="76" y="79" width="242" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cocos 2d-x Game -Navigation view" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhU-jN-9Sd">
-                    <rect key="frame" x="55" y="126" width="285" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome to Cocos2d-x on UIKit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1XD-NT-QZC">
-                    <rect key="frame" x="64" y="26" width="269" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Iov-nm-lM2">
+                    <rect key="frame" x="0.0" y="209" width="375" height="111"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="111" id="Fyo-Pp-OPu"/>
+                    </constraints>
+                    <string key="text">This demo shows you how you can integrate Cocos2d-x with UIKit, you can launch Cocos2d-x in modal view and with the great SWRevealViewController.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vch-MD-wcc">
+                    <rect key="frame" x="64" y="306" width="122" height="30"/>
+                    <state key="normal" title="Cocos2d-x Modal"/>
+                    <connections>
+                        <action selector="modalButtonAction:" destination="-1" eventType="touchUpInside" id="dsQ-8G-Xsr"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cocos2dx-landscape.png" translatesAutoresizingMaskIntoConstraints="NO" id="a14-i3-HDv">
+                    <rect key="frame" x="7" y="24" width="360" height="94"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="1XD-NT-QZC" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="54" id="Lp7-tO-poj"/>
+                <constraint firstItem="a14-i3-HDv" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" id="QCJ-0y-Plz"/>
+                <constraint firstItem="1XD-NT-QZC" firstAttribute="top" secondItem="a14-i3-HDv" secondAttribute="bottom" constant="56" id="SXP-gk-I9o"/>
+                <constraint firstAttribute="trailing" secondItem="Iov-nm-lM2" secondAttribute="trailing" id="ViP-Jt-L5X"/>
+                <constraint firstItem="Iov-nm-lM2" firstAttribute="top" secondItem="1XD-NT-QZC" secondAttribute="bottom" constant="14" id="YvG-t3-VBC"/>
+                <constraint firstItem="1XD-NT-QZC" firstAttribute="centerX" secondItem="fWf-aL-0zO" secondAttribute="centerX" id="aQV-Tl-XFR"/>
+                <constraint firstItem="vch-MD-wcc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="64" id="aa6-Uy-pVU"/>
+                <constraint firstItem="fWf-aL-0zO" firstAttribute="top" secondItem="Iov-nm-lM2" secondAttribute="bottom" constant="43" id="ayf-66-g6J"/>
+                <constraint firstItem="Iov-nm-lM2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="bFA-Lb-X5p"/>
+                <constraint firstItem="fWf-aL-0zO" firstAttribute="top" secondItem="vch-MD-wcc" secondAttribute="bottom" constant="27" id="hqc-Nc-uKp"/>
+                <constraint firstItem="a14-i3-HDv" firstAttribute="centerX" secondItem="Iov-nm-lM2" secondAttribute="centerX" id="nfH-iN-TQ2"/>
+                <constraint firstItem="vch-MD-wcc" firstAttribute="leading" secondItem="fWf-aL-0zO" secondAttribute="leading" id="ujl-F5-nY5"/>
+            </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="321.5" y="226.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="cocos2dx-landscape.png" width="360" height="94"/>
+    </resources>
 </document>

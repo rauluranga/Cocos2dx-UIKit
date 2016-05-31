@@ -80,6 +80,9 @@
 		C418740C1BA784A1001A785A /* MenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C41874041BA784A1001A785A /* MenuViewController.xib */; };
 		C41874131BA78512001A785A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C41874121BA78512001A785A /* SWRevealViewController.m */; };
 		C41874161BA789A9001A785A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41874151BA789A9001A785A /* MapKit.framework */; };
+		C4594EC11CF75F3900ABEEB6 /* cocos2dx-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = C4594EBE1CF75F3900ABEEB6 /* cocos2dx-landscape.png */; };
+		C4594EC21CF75F3900ABEEB6 /* cocos2dx-landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4594EBF1CF75F3900ABEEB6 /* cocos2dx-landscape@2x.png */; };
+		C4594EC31CF75F3900ABEEB6 /* cocos2dx-landscape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4594EC01CF75F3900ABEEB6 /* cocos2dx-landscape@3x.png */; };
 		D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
@@ -197,6 +200,9 @@
 		C41874111BA78512001A785A /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = ios/vendor/SWRevealViewController/SWRevealViewController.h; sourceTree = SOURCE_ROOT; };
 		C41874121BA78512001A785A /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = ios/vendor/SWRevealViewController/SWRevealViewController.m; sourceTree = SOURCE_ROOT; };
 		C41874151BA789A9001A785A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/MapKit.framework; sourceTree = DEVELOPER_DIR; };
+		C4594EBE1CF75F3900ABEEB6 /* cocos2dx-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cocos2dx-landscape.png"; sourceTree = "<group>"; };
+		C4594EBF1CF75F3900ABEEB6 /* cocos2dx-landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cocos2dx-landscape@2x.png"; sourceTree = "<group>"; };
+		C4594EC01CF75F3900ABEEB6 /* cocos2dx-landscape@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cocos2dx-landscape@3x.png"; sourceTree = "<group>"; };
 		D44C620B132DFF330009C878 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -349,6 +355,9 @@
 				C41873F01BA78465001A785A /* coupon@2x.jpg */,
 				C41873F11BA78465001A785A /* get-coupon-button.png */,
 				C41873F21BA78465001A785A /* menu.png */,
+				C4594EBE1CF75F3900ABEEB6 /* cocos2dx-landscape.png */,
+				C4594EBF1CF75F3900ABEEB6 /* cocos2dx-landscape@2x.png */,
+				C4594EC01CF75F3900ABEEB6 /* cocos2dx-landscape@3x.png */,
 				C41873F31BA78465001A785A /* menu@2x.png */,
 			);
 			name = Resources;
@@ -535,6 +544,7 @@
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
+				C4594EC21CF75F3900ABEEB6 /* cocos2dx-landscape@2x.png in Resources */,
 				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
@@ -547,6 +557,7 @@
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
+				C4594EC31CF75F3900ABEEB6 /* cocos2dx-landscape@3x.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				C41873F61BA78465001A785A /* get-coupon-button.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
@@ -554,6 +565,7 @@
 				A0E221571CF5DA4F0001101B /* InitialViewController.xib in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				C418740A1BA784A1001A785A /* LocatorViewController.xib in Resources */,
+				C4594EC11CF75F3900ABEEB6 /* cocos2dx-landscape.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				C418740C1BA784A1001A785A /* MenuViewController.xib in Resources */,
