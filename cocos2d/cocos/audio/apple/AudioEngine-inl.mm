@@ -25,7 +25,7 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#include "AudioEngine-inl.h"
+#include "audio/apple/AudioEngine-inl.h"
 
 #import <OpenAL/alc.h>
 #import <AVFoundation/AVFoundation.h>
@@ -54,6 +54,8 @@ static ALCcontext *s_ALContext = nullptr;
 
 @implementation AudioEngineSessionHandler
 
+// only enable it on iOS. Disable it on tvOS
+#if !defined(CC_TARGET_OS_TVOS)
 void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruption_state)
 {
     if (kAudioSessionBeginInterruption == interruption_state)
@@ -68,6 +70,7 @@ void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruptio
       alcMakeContextCurrent(s_ALContext);
     }
 }
+#endif
 
 -(id) init
 {
@@ -75,11 +78,15 @@ void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruptio
     {
       if ([[[UIDevice currentDevice] systemVersion] intValue] > 5) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterruption:) name:UIApplicationDidBecomeActiveNotification object:[AVAudioSession sharedInstance]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterruption:) name:UIApplicationDidBecomeActiveNotification object:nil];
       }
+    // only enable it on iOS. Disable it on tvOS
+    // AudioSessionInitialize removed from tvOS
+#if !defined(CC_TARGET_OS_TVOS)
       else {
         AudioSessionInitialize(NULL, NULL, AudioEngineInterruptionListenerCallback, self);
       }
+#endif
     }
     return self;
 }

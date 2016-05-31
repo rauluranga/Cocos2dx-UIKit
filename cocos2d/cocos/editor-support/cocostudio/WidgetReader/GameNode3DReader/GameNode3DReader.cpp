@@ -22,14 +22,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "GameNode3DReader.h"
+#include "editor-support/cocostudio/WidgetReader/GameNode3DReader/GameNode3DReader.h"
 
-#include "cocostudio/CCComExtensionData.h"
-#include "cocostudio/CSParseBinary_generated.h"
-#include "cocostudio/CSParse3DBinary_generated.h"
+#include "editor-support/cocostudio/CCComExtensionData.h"
+#include "editor-support/cocostudio/CSParseBinary_generated.h"
+#include "editor-support/cocostudio/CSParse3DBinary_generated.h"
 
-#include "cocostudio/FlatBuffersSerialize.h"
-#include "cocostudio/WidgetReader/NodeReader/NodeReader.h"
+#include "editor-support/cocostudio/FlatBuffersSerialize.h"
+#include "editor-support/cocostudio/WidgetReader/NodeReader/NodeReader.h"
 
 #include "tinyxml2.h"
 #include "flatbuffers/flatbuffers.h"
@@ -57,7 +57,7 @@ namespace cocostudio
     {
         if (!_instanceNode3DReader)
         {
-            _instanceNode3DReader = new GameNode3DReader();
+            _instanceNode3DReader = new (std::nothrow) GameNode3DReader();
         }
         
         return _instanceNode3DReader;
@@ -82,6 +82,7 @@ namespace cocostudio
         flatbuffers::FlatBufferBuilder *builder)
     {
         std::string name = "";
+        bool useDefaultLight = false;
         int skyBoxMask = 1;
         bool skyBoxEnabled = false;
         bool skyBoxValid = true;
@@ -123,6 +124,10 @@ namespace cocostudio
             if (attriname == "Name")
             {
                 name = value;
+            }
+            else if (attriname == "UseDefaultLight")
+            {
+                useDefaultLight = (value == "True") ? true : false;
             }
             else if (attriname == "SkyBoxEnabled")
             {
@@ -375,7 +380,8 @@ namespace cocostudio
                                 builder->CreateString(backPlistFile),
                                 backResourceType),
             builder->CreateString(frameEvent),
-            builder->CreateString(customProperty)
+            builder->CreateString(customProperty),
+            useDefaultLight
             );
 
         return *(Offset<Table>*)(&options);
@@ -414,10 +420,10 @@ namespace cocostudio
 
         std::string customProperty = options->customProperty()->c_str();
         ComExtensionData* extensionData = ComExtensionData::create();
-        extensionData->setCustomProperty(customProperty);\
-        if (node->getComponent("ComExtensionData"))
+        extensionData->setCustomProperty(customProperty);
+        if (node->getComponent(ComExtensionData::COMPONENT_NAME))
         {
-            node->removeComponent("ComExtensionData");
+            node->removeComponent(ComExtensionData::COMPONENT_NAME);
         }
         node->addComponent(extensionData);
     }

@@ -30,7 +30,7 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 
-#include "UIEditBoxImpl.h"
+#include "ui/UIEditBox/UIEditBoxImpl.h"
 
 NS_CC_BEGIN
 
@@ -105,6 +105,12 @@ private:
     HWND       _sysEdit;
     int        _maxTextLength;
 	*/
+    std::string _editingText;
+    std::string _originalText;
+    bool _isEditing;
+
+    void onWin32InputBoxTextChange(const char *pText);
+    void onWin32InputBoxClose(INT_PTR buttonId);
 };
 
 

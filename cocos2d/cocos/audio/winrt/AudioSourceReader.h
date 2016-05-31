@@ -16,6 +16,7 @@
 * See the License for the specific language governing permissions and limitations under the License.
 */
 
+#include "base/ccMacros.h"
 #include "platform/CCPlatformConfig.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
@@ -29,7 +30,7 @@
 #include <mfreadwrite.h>
 #include <queue>
 #include <mutex>
-#include "MediaStreamer.h"
+#include "audio/winrt/MediaStreamer.h"
 #include "ogg/ogg.h"
 #include "vorbis/vorbisfile.h"
 

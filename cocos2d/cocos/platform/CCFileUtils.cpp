@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "CCFileUtils.h"
+#include "platform/CCFileUtils.h"
 
 #include <stack>
 
@@ -328,9 +328,9 @@ public:
 
 ValueMap FileUtils::getValueMapFromFile(const std::string& filename)
 {
-    const std::string fullPath = fullPathForFilename(filename.c_str());
+    const std::string fullPath = fullPathForFilename(filename);
     DictMaker tMaker;
-    return tMaker.dictionaryWithContentsOfFile(fullPath.c_str());
+    return tMaker.dictionaryWithContentsOfFile(fullPath);
 }
 
 ValueMap FileUtils::getValueMapFromData(const char* filedata, int filesize)
@@ -341,9 +341,9 @@ ValueMap FileUtils::getValueMapFromData(const char* filedata, int filesize)
 
 ValueVector FileUtils::getValueVectorFromFile(const std::string& filename)
 {
-    const std::string fullPath = fullPathForFilename(filename.c_str());
+    const std::string fullPath = fullPathForFilename(filename);
     DictMaker tMaker;
-    return tMaker.arrayWithContentsOfFile(fullPath.c_str());
+    return tMaker.arrayWithContentsOfFile(fullPath);
 }
 
 
@@ -356,12 +356,12 @@ static tinyxml2::XMLElement* generateElementForDict(const ValueMap& dict, tinyxm
 /*
  * Use tinyxml2 to write plist files
  */
-bool FileUtils::writeToFile(ValueMap& dict, const std::string &fullPath)
+bool FileUtils::writeToFile(const ValueMap& dict, const std::string &fullPath)
 {
     return writeValueMapToFile(dict, fullPath);
 }
 
-bool FileUtils::writeValueMapToFile(ValueMap& dict, const std::string& fullPath)
+bool FileUtils::writeValueMapToFile(const ValueMap& dict, const std::string& fullPath)
 {
     tinyxml2::XMLDocument *doc = new (std::nothrow)tinyxml2::XMLDocument();
     if (nullptr == doc)
@@ -401,7 +401,7 @@ bool FileUtils::writeValueMapToFile(ValueMap& dict, const std::string& fullPath)
     return ret;
 }
 
-bool FileUtils::writeValueVectorToFile(ValueVector vecData, const std::string& fullPath)
+bool FileUtils::writeValueVectorToFile(const ValueVector& vecData, const std::string& fullPath)
 {
     tinyxml2::XMLDocument *doc = new (std::nothrow)tinyxml2::XMLDocument();
     if (nullptr == doc)
@@ -533,7 +533,7 @@ static tinyxml2::XMLElement* generateElementForArray(const ValueVector& array, t
 ValueMap FileUtils::getValueMapFromFile(const std::string& filename) {return ValueMap();}
 ValueMap FileUtils::getValueMapFromData(const char* filedata, int filesize) {return ValueMap();}
 ValueVector FileUtils::getValueVectorFromFile(const std::string& filename) {return ValueVector();}
-bool FileUtils::writeToFile(ValueMap& dict, const std::string &fullPath) {return false;}
+bool FileUtils::writeToFile(const ValueMap& dict, const std::string &fullPath) {return false;}
 
 #endif /* (CC_TARGET_PLATFORM != CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM != CC_PLATFORM_MAC) */
 
@@ -562,20 +562,23 @@ FileUtils::~FileUtils()
 {
 }
 
-bool FileUtils::writeStringToFile(std::string dataStr, const std::string& fullPath)
+bool FileUtils::writeStringToFile(const std::string& dataStr, const std::string& fullPath)
 {
-    Data retData;
-    retData.copy((unsigned char*)dataStr.c_str(), dataStr.size());
+    Data data;
+    data.fastSet((unsigned char*)dataStr.c_str(), dataStr.size());
 
-    return writeDataToFile(retData, fullPath);
+    bool rv = writeDataToFile(data, fullPath);
+
+    data.fastSet(nullptr, 0);
+    return rv;
 }
 
-bool FileUtils::writeDataToFile(Data retData, const std::string& fullPath)
+bool FileUtils::writeDataToFile(const Data& data, const std::string& fullPath)
 {
     size_t size = 0;
     const char* mode = "wb";
 
-    CCASSERT(!fullPath.empty() && retData.getSize() != 0, "Invalid parameters.");
+    CCASSERT(!fullPath.empty() && data.getSize() != 0, "Invalid parameters.");
 
     auto fileutils = FileUtils::getInstance();
     do
@@ -583,9 +586,9 @@ bool FileUtils::writeDataToFile(Data retData, const std::string& fullPath)
         // Read the file from hardware
         FILE *fp = fopen(fileutils->getSuitableFOpen(fullPath).c_str(), mode);
         CC_BREAK_IF(!fp);
-        size = retData.getSize();
+        size = data.getSize();
 
-        fwrite(retData.getBytes(), size, 1, fp);
+        fwrite(data.getBytes(), size, 1, fp);
 
         fclose(fp);
 
@@ -722,15 +725,15 @@ unsigned char* FileUtils::getFileDataFromZip(const std::string& zipFilePath, con
     {
         CC_BREAK_IF(zipFilePath.empty());
 
-        file = unzOpen(zipFilePath.c_str());
+        file = unzOpen(FileUtils::getInstance()->getSuitableFOpen(zipFilePath).c_str());
         CC_BREAK_IF(!file);
 
         // FIXME: Other platforms should use upstream minizip like mingw-w64
-        #ifdef MINIZIP_FROM_SYSTEM
+#ifdef MINIZIP_FROM_SYSTEM
         int ret = unzLocateFile(file, filename.c_str(), NULL);
-        #else
+#else
         int ret = unzLocateFile(file, filename.c_str(), 1);
-        #endif
+#endif
         CC_BREAK_IF(UNZ_OK != ret);
 
         char filePathA[260];
@@ -793,7 +796,6 @@ std::string FileUtils::getPathForFilename(const std::string& filename, const std
 
     path = getFullPathForDirectoryAndFilename(path, file);
 
-    //CCLOG("getPathForFilename, fullPath = %s", path.c_str());
     return path;
 }
 
@@ -827,7 +829,7 @@ std::string FileUtils::fullPathForFilename(const std::string &filename) const
         {
             fullpath = this->getPathForFilename(newFilename, resolutionIt, searchIt);
 
-            if (fullpath.length() > 0)
+            if (!fullpath.empty())
             {
                 // Using the filename passed in as key.
                 _fullPathCache.insert(std::make_pair(filename, fullpath));
@@ -926,7 +928,7 @@ void FileUtils::setSearchPaths(const std::vector<std::string>& searchPaths)
             prefix = _defaultResRootPath;
         }
         path = prefix + (iter);
-        if (path.length() > 0 && path[path.length()-1] != '/')
+        if (!path.empty() && path[path.length()-1] != '/')
         {
             path += "/";
         }
@@ -951,7 +953,7 @@ void FileUtils::addSearchPath(const std::string &searchpath,const bool front)
         prefix = _defaultResRootPath;
 
     std::string path = prefix + searchpath;
-    if (path.length() > 0 && path[path.length()-1] != '/')
+    if (!path.empty() && path[path.length()-1] != '/')
     {
         path += "/";
     }
@@ -971,7 +973,7 @@ void FileUtils::setFilenameLookupDictionary(const ValueMap& filenameLookupDict)
 void FileUtils::loadFilenameLookupDictionaryFromFile(const std::string &filename)
 {
     const std::string fullPath = fullPathForFilename(filename);
-    if (fullPath.length() > 0)
+    if (!fullPath.empty())
     {
         ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(fullPath);
         if (!dict.empty())
@@ -1102,6 +1104,12 @@ std::string FileUtils::getSuitableFOpen(const std::string& filenameUtf8) const
     return filenameUtf8;
 }
 
+long FileUtils::getFileSize(const std::string &filepath)
+{
+    CCASSERT(false, "getFileSize should be override by platform FileUtils");
+    return 0;
+}
+
 #else
 // default implements for unix like os
 #include <sys/types.h>
@@ -1183,9 +1191,14 @@ bool FileUtils::createDirectory(const std::string& path)
 
 bool FileUtils::removeDirectory(const std::string& path)
 {
+    // FIXME: Why using subclassing? an interface probably will be better
+    // to support different OS
+    // FileUtils::removeDirectory is subclassed on iOS/tvOS
+    // and system() is not available on tvOS
+#if !defined(CC_PLATFORM_IOS)
     if (path.size() > 0 && path[path.size() - 1] != '/')
     {
-        CCLOGERROR("Fail to remove directory, path must termniate with '/': %s", path.c_str());
+        CCLOGERROR("Fail to remove directory, path must terminate with '/': %s", path.c_str());
         return false;
     }
 
@@ -1195,6 +1208,7 @@ bool FileUtils::removeDirectory(const std::string& path)
     if (system(command.c_str()) >= 0)
         return true;
     else
+#endif
         return false;
 }
 
@@ -1236,7 +1250,6 @@ std::string FileUtils::getSuitableFOpen(const std::string& filenameUtf8) const
     return filenameUtf8;
 }
 
-#endif
 
 long FileUtils::getFileSize(const std::string &filepath)
 {
@@ -1252,10 +1265,10 @@ long FileUtils::getFileSize(const std::string &filepath)
 
     struct stat info;
     // Get data associated with "crt_stat.c":
-    int result = stat( fullpath.c_str(), &info );
+    int result = stat(fullpath.c_str(), &info);
 
     // Check if statistics are valid:
-    if( result != 0 )
+    if (result != 0)
     {
         // Failed
         return -1;
@@ -1265,6 +1278,7 @@ long FileUtils::getFileSize(const std::string &filepath)
         return (long)(info.st_size);
     }
 }
+#endif
 
 //////////////////////////////////////////////////////////////////////////
 // Notification support when getFileData from invalid file path.
@@ -1296,4 +1310,3 @@ std::string FileUtils::getFileExtension(const std::string& filePath) const
 }
 
 NS_CC_END
-

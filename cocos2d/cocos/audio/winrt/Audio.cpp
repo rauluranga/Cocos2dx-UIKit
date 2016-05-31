@@ -16,9 +16,9 @@
 * See the License for the specific language governing permissions and limitations under the License.
 */
 
-#include "Audio.h"
-#include "CCCommon.h"
-#include "AudioSourceReader.h"
+#include "audio/winrt/Audio.h"
+#include "platform/CCCommon.h"
+#include "audio/winrt/AudioSourceReader.h"
 
 inline void ThrowIfFailed(HRESULT hr)
 {
@@ -482,53 +482,6 @@ bool Audio::IsSoundEffectPaused(unsigned int sound)
         return false;
 
     return m_soundEffects[sound].m_soundEffectPaused;
-}
-
-std::wstring CCUtf8ToUnicode(const char * pszUtf8Str)
-{
-    std::wstring ret;
-    do
-    {
-        if (! pszUtf8Str) break;
-        size_t len = strlen(pszUtf8Str);
-        if (len <= 0) break;
-		++len;
-        wchar_t * pwszStr = new wchar_t[len];
-        if (! pwszStr) break;
-        pwszStr[len - 1] = 0;
-        MultiByteToWideChar(CP_UTF8, 0, pszUtf8Str, len, pwszStr, len);
-        ret = pwszStr;
-
-		if(pwszStr) { 
-			delete[] (pwszStr); 
-			(pwszStr) = 0; 
-		}
-
-
-    } while (0);
-    return ret;
-}
-
-std::string CCUnicodeToUtf8(const wchar_t* pwszStr)
-{
-	std::string ret;
-	do
-	{
-		if(! pwszStr) break;
-		size_t len = wcslen(pwszStr);
-		if (len <= 0) break;
-		
-		char * pszUtf8Str = new char[len*3 + 1];
-		WideCharToMultiByte(CP_UTF8, 0, pwszStr, len+1, pszUtf8Str, len*3 + 1, 0, 0);
-		ret = pszUtf8Str;
-				
-		if(pszUtf8Str) { 
-			delete[] (pszUtf8Str); 
-			(pszUtf8Str) = 0; 
-		}
-	}while(0);
-
-	return ret;
 }
 
 void Audio::PreloadSoundEffect(const char* pszFilePath, bool isMusic)

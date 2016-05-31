@@ -64,6 +64,7 @@ ScrollView::ScrollView()
 , _maxScale(0.0f)
 , _scissorRestored(false)
 , _touchListener(nullptr)
+, _animatedScrollAction(nullptr)
 {
 
 }
@@ -189,6 +190,7 @@ void ScrollView::setTouchEnabled(bool enabled)
     if (enabled)
     {
         _touchListener = EventListenerTouchOneByOne::create();
+        _touchListener->setSwallowTouches(true);
         _touchListener->onTouchBegan = CC_CALLBACK_2(ScrollView::onTouchBegan, this);
         _touchListener->onTouchMoved = CC_CALLBACK_2(ScrollView::onTouchMoved, this);
         _touchListener->onTouchEnded = CC_CALLBACK_2(ScrollView::onTouchEnded, this);
@@ -234,10 +236,19 @@ void ScrollView::setContentOffsetInDuration(Vec2 offset, float dt)
 {
     FiniteTimeAction *scroll, *expire;
     
+    if (_animatedScrollAction) {
+        stopAnimatedContentOffset();
+    }
     scroll = MoveTo::create(dt, offset);
     expire = CallFuncN::create(CC_CALLBACK_1(ScrollView::stoppedAnimatedScroll,this));
-    _container->runAction(Sequence::create(scroll, expire, nullptr));
+    _animatedScrollAction = _container->runAction(Sequence::create(scroll, expire, nullptr));
     this->schedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll));
+}
+
+void ScrollView::stopAnimatedContentOffset() {
+    stopAction(_animatedScrollAction);
+    _animatedScrollAction = nullptr;
+    stoppedAnimatedScroll(this);
 }
 
 Vec2 ScrollView::getContentOffset()
@@ -508,6 +519,29 @@ void ScrollView::addChild(Node * child, int zOrder, int tag)
     }
 }
 
+void ScrollView::removeChild(Node* node, bool cleanup)
+{
+    if(_container != node)
+    {
+        _container->removeChild(node, cleanup);
+    }
+    else
+    {
+        Layer::removeChild(node, cleanup);
+    }
+}
+
+void ScrollView::removeAllChildrenWithCleanup(bool cleanup)
+{
+    _container->removeAllChildrenWithCleanup(cleanup);
+    Layer::removeAllChildrenWithCleanup(cleanup);
+}
+
+void ScrollView::removeAllChildren()
+{
+    removeAllChildrenWithCleanup(true);
+}
+
 void ScrollView::addChild(Node * child, int zOrder, const std::string &name)
 {
     if (_container != child)
@@ -598,7 +632,7 @@ void ScrollView::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t
     // To ease the migration to v3.0, we still support the Mat4 stack,
     // but it is deprecated and your code should not rely on it
     Director* director = Director::getInstance();
-    CCASSERT(nullptr != director, "Director is null when seting matrix stack");
+    CCASSERT(nullptr != director, "Director is null when setting matrix stack");
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
 

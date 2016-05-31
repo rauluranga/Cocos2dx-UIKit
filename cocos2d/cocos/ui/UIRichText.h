@@ -34,6 +34,8 @@ NS_CC_BEGIN
  * @{
  */
 
+class Label;
+
 namespace ui {
     
 /**
@@ -50,7 +52,8 @@ public:
     {
         TEXT,
         IMAGE,
-        CUSTOM
+        CUSTOM,
+        NEWLINE
     };
     
     /**
@@ -97,8 +100,16 @@ public:
      * @js ctor
      * @lua new
      */
-    RichElementText(){_type = Type::TEXT;};
+    RichElementText()
+    {_type = Type::TEXT;};
 
+    enum {
+        ITALICS_FLAG = 1 << 0,
+        BOLD_FLAG = 1 << 1,
+        UNDERLINE_FLAG = 1 << 2,
+        STRIKETHROUGH_FLAG = 1 << 3,
+        URL_FLAG = 1 << 4
+    };
     
     /**
      *@brief Default destructor.
@@ -116,9 +127,10 @@ public:
      * @param text Content string.
      * @param fontName Content font name.
      * @param fontSize Content font size.
-     * @return True if initialize scucess, false otherwise.
+     * @param flags: italics, bold, underline or strikethrough
+     * @return True if initialize success, false otherwise.
      */
-    bool init(int tag, const Color3B& color, GLubyte opacity, const std::string& text, const std::string& fontName, float fontSize);
+    bool init(int tag, const Color3B& color, GLubyte opacity, const std::string& text, const std::string& fontName, float fontSize, uint32_t flags, const std::string& url);
 
     
     /**
@@ -130,13 +142,17 @@ public:
      * @param text Content string.
      * @param fontName Content font name.
      * @param fontSize Content font size.
+     * @param flags: italics, bold, underline or strikethrough
      * @return RichElementText instance.
      */
-    static RichElementText* create(int tag, const Color3B& color, GLubyte opacity, const std::string& text, const std::string& fontName, float fontSize);
+    static RichElementText* create(int tag, const Color3B& color, GLubyte opacity, const std::string& text,
+                                   const std::string& fontName, float fontSize, uint32_t flags=0, const std::string& url="");
 protected:
     std::string _text;
     std::string _fontName;
     float _fontSize;
+    uint32_t _flags;
+    std::string _url;
     friend class RichText;
     
 };
@@ -187,11 +203,16 @@ public:
      * @return A RichElementImage instance.
      */
     static RichElementImage* create(int tag, const Color3B& color, GLubyte opacity, const std::string& filePath);
+
+    void setWidth(int width);
+    void setHeight(int height);
 protected:
     std::string _filePath;
     Rect _textureRect;
     int _textureType;
     friend class RichText;
+    int _width;
+    int _height;
 };
     
 /**
@@ -244,12 +265,52 @@ protected:
 };
     
 /**
+ *@brief Rich element for new line.
+ */
+class CC_GUI_DLL RichElementNewLine : public RichElement
+{
+public:
+    
+    /**
+     * @brief Default constructor.
+     * @js ctor
+     * @lua new
+     *
+     */
+    RichElementNewLine(){_type = Type::NEWLINE;};
+    
+    /**
+     * @brief Default destructor.
+     * @js NA
+     * @lua NA
+     */
+    virtual ~RichElementNewLine(){};
+    
+    /**
+     * @brief Create a RichElementNewLine with various arguments.
+     *
+     * @param tag A integer tag value.
+     * @param color A color in Color3B.
+     * @param opacity A opacity in GLubyte.
+     * @return A RichElementNewLine instance.
+     */
+    static RichElementNewLine* create(int tag, const Color3B& color, GLubyte opacity);
+protected:
+    friend class RichText;
+};
+    
+/**
  *@brief A container for displaying various RichElements.
  * We could use it to display texts with images easily.
  */
 class CC_GUI_DLL RichText : public Widget
 {
 public:
+
+    enum WrapMode {
+        WRAP_PER_WORD,
+        WRAP_PER_CHAR
+    };
     
     /**
      * @brief Default constructor.
@@ -271,7 +332,14 @@ public:
      * @return RichText instance.
      */
     static RichText* create();
-    
+
+    /**
+     * @brief Create a RichText from an XML
+     *
+     * @return RichText instance.
+     */
+    static RichText* createWithXML(const std::string& xml);
+
     /**
      * @brief Insert a RichElement at a given index.
      *
@@ -317,26 +385,40 @@ public:
     //override functions.
     virtual void ignoreContentAdaptWithSize(bool ignore) override;
     virtual std::string getDescription() const override;
+
+    /** @brief sets the wrapping mode: WRAP_PER_CHAR or WRAP_PER_WORD
+     */
+    void setWrapMode(WrapMode wrapMode);
+
+    /** @brief returns the current wrapping mode */
+    WrapMode getWrapMode() const;
     
 CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
-    
+
+    bool initWithXML(const std::string& xml);
+
 protected:
     virtual void adaptRenderers() override;
 
     virtual void initRenderer() override;
     void pushToContainer(Node* renderer);
-    void handleTextRenderer(const std::string& text, const std::string& fontName, float fontSize, const Color3B& color, GLubyte opacity);
-    void handleImageRenderer(const std::string& fileParh, const Color3B& color, GLubyte opacity);
+    void handleTextRenderer(const std::string& text, const std::string& fontName, float fontSize, const Color3B& color, GLubyte opacity, uint32_t flags, const std::string& url="");
+    void handleImageRenderer(const std::string& fileParh, const Color3B& color, GLubyte opacity, int width, int height);
     void handleCustomRenderer(Node* renderer);
     void formarRenderers();
     void addNewLine();
-protected:
+    int findSplitPositionForWord(cocos2d::Label* label, const std::string& text);
+    int findSplitPositionForChar(cocos2d::Label* label, const std::string& text);
+
     bool _formatTextDirty;
     Vector<RichElement*> _richElements;
     std::vector<Vector<Node*>*> _elementRenders;
     float _leftSpaceWidth;
     float _verticalSpace;
+
+    // per word, or per char
+    WrapMode _wrapMode;
 };
     
 }
