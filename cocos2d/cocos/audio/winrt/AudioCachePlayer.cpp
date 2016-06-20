@@ -20,7 +20,7 @@
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 
-#include "AudioCachePlayer.h"
+#include "audio/winrt/AudioCachePlayer.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 
@@ -63,8 +63,6 @@ void AudioCache::readDataTask()
     if (_isReady) {
         return;
     }
-
-    std::wstring path(_fileFullPath.begin(), _fileFullPath.end());
 
     if (nullptr != _srcReader) {
         delete _srcReader;

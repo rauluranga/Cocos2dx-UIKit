@@ -26,9 +26,10 @@ THE SOFTWARE.
 #include "platform/CCCommon.h"
 #include "base/base64.h"
 #include "base/ccUtils.h"
+#include "platform/CCFileUtils.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-#include "CCWinRTUtils.h"
+#include "platform/winrt/CCWinRTUtils.h"
 
 using namespace Windows::Storage;
 using namespace Windows::Foundation;

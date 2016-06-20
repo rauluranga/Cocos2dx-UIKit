@@ -22,10 +22,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "CCPrecompiledShaders.h"
-#include "CCWinRTUtils.h"
+#include "platform/winrt/CCPrecompiledShaders.h"
+#include "platform/winrt/CCWinRTUtils.h"
 #include "renderer/CCGLProgram.h"
-#include "sha1.h"
+#include "platform/winrt/sha1.h"
 
 using namespace Windows::Graphics::Display;
 using namespace Windows::Storage;
@@ -210,7 +210,7 @@ void CCPrecompiledShaders::savePrecompiledPrograms(Windows::Storage::StorageFold
         for (auto iter = m_programs.begin(); iter != m_programs.end(); ++iter) 
         {
             CompiledProgram* p = (CompiledProgram*)iter->second;
-            Platform::String^ keyName =  ref new Platform::String(CCUtf8ToUnicode(p->key.c_str()).c_str());
+            Platform::String^ keyName = PlatformStringFromString(p->key);
             Platform::String^ programName = SHADER_NAME_PREFIX + keyName;
 
             dataWriter->WriteString("const unsigned char ");
@@ -225,12 +225,12 @@ void CCPrecompiledShaders::savePrecompiledPrograms(Windows::Storage::StorageFold
                 if(i % 8 == 0)
                     dataWriter->WriteString("\n");
                 sprintf_s(temp, "%3i, ", buffer[i]);
-                dataWriter->WriteString(ref new Platform::String(CCUtf8ToUnicode(temp).c_str()));
+                dataWriter->WriteString(PlatformStringFromString(temp));
             }
             if((p->length - 1) % 8 == 0)
                 dataWriter->WriteString("\n");
             sprintf_s(temp, "%3i, ", buffer[p->length - 1]);
-            dataWriter->WriteString(ref new Platform::String(CCUtf8ToUnicode(temp).c_str()));
+            dataWriter->WriteString(PlatformStringFromString(temp));
             dataWriter->WriteString("\n};\n\n");
 
             if(numPrograms != 0)
