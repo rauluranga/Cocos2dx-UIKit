@@ -45,20 +45,20 @@ class CC_DLL FileUtilsApple : public FileUtils
 {
 public:
     FileUtilsApple();
-    /* override funtions */
+    /* override functions */
     virtual std::string getWritablePath() const override;
     virtual std::string getFullPathForDirectoryAndFilename(const std::string& directory, const std::string& filename) const override;
 
     virtual ValueMap getValueMapFromFile(const std::string& filename) override;
     virtual ValueMap getValueMapFromData(const char* filedata, int filesize)override;
-    virtual bool writeToFile(ValueMap& dict, const std::string& fullPath) override;
+    virtual bool writeToFile(const ValueMap& dict, const std::string& fullPath) override;
 
     virtual ValueVector getValueVectorFromFile(const std::string& filename) override;
     void setBundle(NSBundle* bundle);
 private:
     virtual bool isFileExistInternal(const std::string& filePath) const override;
     virtual bool removeDirectory(const std::string& dirPath) override;
-    
+
     NSBundle* getBundle() const;
     NSBundle* _bundle;
 };
@@ -69,4 +69,3 @@ private:
 NS_CC_END
 
 #endif    // __CC_FILEUTILS_APPLE_H__
-

@@ -300,7 +300,7 @@ public:
      * @param other The vector to be compared.
      * @return True if two vectors are equal, false if not.
      */
-    bool equals(const Vector<T> &other)
+    bool equals(const Vector<T> &other) const
     {
         ssize_t s = this->size();
         if (s != other.size())
@@ -435,7 +435,7 @@ public:
     }
 
     /** @brief Removes all elements from the Vector (which are destroyed), leaving the container with a size of 0.
-     *  @note All the elements in the Vector will be released (referece count will be decreased).
+     *  @note All the elements in the Vector will be released (reference count will be decreased).
      */
     void clear()
     {

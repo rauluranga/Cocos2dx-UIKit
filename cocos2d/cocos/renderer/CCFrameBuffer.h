@@ -72,7 +72,6 @@ public:
     
     unsigned int getWidth() const { return _width; }
     unsigned int getHeight() const { return _height; }
-    
     Type getType() const { return _type; }
 protected:
     Type _type;
@@ -196,8 +195,6 @@ private:
     bool _isDefault;
 public:
     static FrameBuffer* getOrCreateDefaultFBO(GLView* glView);
-    static void clean();
-    
     static void applyDefaultFBO();
     static void clearAllFBOs();
 private:

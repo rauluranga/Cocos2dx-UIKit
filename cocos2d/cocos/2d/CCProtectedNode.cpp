@@ -26,13 +26,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "CCProtectedNode.h"
+#include "2d/CCProtectedNode.h"
 
 #include "base/CCDirector.h"
-
-#if CC_USE_PHYSICS
-#include "physics/CCPhysicsBody.h"
-#endif
 #include "2d/CCScene.h"
 
 NS_CC_BEGIN
@@ -43,8 +39,8 @@ ProtectedNode::ProtectedNode() : _reorderProtectedChildDirty(false)
 
 ProtectedNode::~ProtectedNode()
 {
-    
     CCLOGINFO( "deallocing ProtectedNode: %p - tag: %i", this, _tag );
+    removeAllProtectedChildren();
 }
 
 ProtectedNode * ProtectedNode::create(void)
@@ -108,19 +104,6 @@ void ProtectedNode::addProtectedChild(Node *child, int zOrder, int tag)
     child->setParent(this);
     child->setOrderOfArrival(s_globalOrderOfArrival++);
     
-#if CC_USE_PHYSICS
-    // Recursive add children with which have physics body.
-    for (Node* node = this; node != nullptr; node = node->getParent())
-    {
-        Scene* scene = dynamic_cast<Scene*>(node);
-        if (scene != nullptr && scene->getPhysicsWorld() != nullptr)
-        {
-            scene->addChildToPhysicsWorld(child);
-            break;
-        }
-    }
-#endif
-    
     if( _running )
     {
         child->onEnter();
@@ -178,13 +161,6 @@ void ProtectedNode::removeProtectedChild(cocos2d::Node *child, bool cleanup)
             child->onExit();
         }
         
-#if CC_USE_PHYSICS
-        if (child->getPhysicsBody() != nullptr)
-        {
-            child->getPhysicsBody()->removeFromWorld();
-        }
-        
-#endif
         // If you don't do cleanup, the child's actions will not get removed and the
         // its scheduledSelectors_ dict will not get released!
         if (cleanup)
@@ -195,6 +171,13 @@ void ProtectedNode::removeProtectedChild(cocos2d::Node *child, bool cleanup)
         // set parent nil at the end
         child->setParent(nullptr);
         
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+        auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+        if (sEngine)
+        {
+            sEngine->releaseScriptObject(this, child);
+        }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
         _protectedChildren.erase(index);
     }
 }
@@ -218,17 +201,17 @@ void ProtectedNode::removeAllProtectedChildrenWithCleanup(bool cleanup)
             child->onExit();
         }
         
-#if CC_USE_PHYSICS
-        if (child->getPhysicsBody() != nullptr)
-        {
-            child->getPhysicsBody()->removeFromWorld();
-        }
-#endif
-        
         if (cleanup)
         {
             child->cleanup();
         }
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+        auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+        if (sEngine)
+        {
+            sEngine->releaseScriptObject(this, child);
+        }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
         // set parent nil at the end
         child->setParent(nullptr);
     }
@@ -255,6 +238,13 @@ void ProtectedNode::removeProtectedChildByTag(int tag, bool cleanup)
 // helper used by reorderChild & add
 void ProtectedNode::insertProtectedChild(cocos2d::Node *child, int z)
 {
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+    auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+    if (sEngine)
+    {
+        sEngine->retainScriptObject(this, child);
+    }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     _reorderProtectedChildDirty = true;
     _protectedChildren.pushBack(child);
     child->setLocalZOrder(z);
@@ -290,7 +280,7 @@ void ProtectedNode::visit(Renderer* renderer, const Mat4 &parentTransform, uint3
     // To ease the migration to v3.0, we still support the Mat4 stack,
     // but it is deprecated and your code should not rely on it
     Director* director = Director::getInstance();
-    CCASSERT(nullptr != director, "Director is null when seting matrix stack");
+    CCASSERT(nullptr != director, "Director is null when setting matrix stack");
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
     

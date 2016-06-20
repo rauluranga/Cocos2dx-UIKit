@@ -50,8 +50,8 @@ static __TYPE__* create() \
     else \
     { \
         delete pRet; \
-        pRet = NULL; \
-        return NULL; \
+        pRet = nullptr; \
+        return nullptr; \
     } \
 }
 
@@ -220,7 +220,7 @@ public: virtual void set##funName(varType var)   \
 #define CC_BREAK_IF(cond)           if(cond) break
 
 #define __CCLOGWITHFUNCTION(s, ...) \
-    log("%s : %s",__FUNCTION__, StringUtils::format(s, ##__VA_ARGS__).c_str())
+    cocos2d::log("%s : %s",__FUNCTION__, cocos2d::StringUtils::format(s, ##__VA_ARGS__).c_str())
 
 /// @name Cocos2d debug
 /// @{
@@ -293,7 +293,7 @@ public: virtual void set##funName(varType var)   \
 
 /** @def CC_DEPRECATED(...)
  * Macro to mark things deprecated as of a particular version
- * can be used with artibrary parameters which are thrown away.
+ * can be used with arbitrary parameters which are thrown away.
  * e.g. CC_DEPRECATED(4.0) or CC_DEPRECATED(4.0, "not going to need this anymore") etc.
  */
 #define CC_DEPRECATED(...) CC_DEPRECATED_ATTRIBUTE

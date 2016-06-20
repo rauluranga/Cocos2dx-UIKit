@@ -58,7 +58,7 @@ public:
     /**
      * You can inherit from platform dependent implementation of FileUtils, such as FileUtilsAndroid,
      * and use this function to set delegate, then FileUtils will invoke delegate's implementation.
-     * Fox example, your resources are encrypted, so you need to decrypt it after reading data from
+     * For example, your resources are encrypted, so you need to decrypt it after reading data from
      * resources, then you can implement all getXXX functions, and engine will invoke your own getXX
      * functions when reading data of resources.
      *
@@ -334,7 +334,7 @@ public:
     *@param fullPath The full path to the file you want to save a string
     *@return bool
     */
-    virtual bool writeToFile(ValueMap& dict, const std::string& fullPath);
+    virtual bool writeToFile(const ValueMap& dict, const std::string& fullPath);
 
     /**
      *  write a string into a file
@@ -343,17 +343,17 @@ public:
      * @param fullPath The full path to the file you want to save a string
      * @return bool True if write success
      */
-    virtual bool writeStringToFile(std::string dataStr, const std::string& fullPath);
+    virtual bool writeStringToFile(const std::string& dataStr, const std::string& fullPath);
 
 
     /**
      * write Data into a file
      *
-     *@param retData the data want to save
+     *@param data the data want to save
      *@param fullPath The full path to the file you want to save a string
      *@return bool
      */
-    virtual bool writeDataToFile(Data retData, const std::string& fullPath);
+    virtual bool writeDataToFile(const Data& data, const std::string& fullPath);
 
     /**
     * write ValueMap into a plist file
@@ -362,7 +362,7 @@ public:
     *@param fullPath The full path to the file you want to save a string
     *@return bool
     */
-    virtual bool writeValueMapToFile(ValueMap& dict, const std::string& fullPath);
+    virtual bool writeValueMapToFile(const ValueMap& dict, const std::string& fullPath);
 
     /**
     * write ValueVector into a plist file
@@ -371,13 +371,13 @@ public:
     *@param fullPath The full path to the file you want to save a string
     *@return bool
     */
-    virtual bool writeValueVectorToFile(ValueVector vecData, const std::string& fullPath);
+    virtual bool writeValueVectorToFile(const ValueVector& vecData, const std::string& fullPath);
 
     /**
     * Windows fopen can't support UTF-8 filename
     * Need convert all parameters fopen and other 3rd-party libs
     *
-    * @param filename std::string name file for convertation from utf-8
+    * @param filename std::string name file for conversion from utf-8
     * @return std::string ansi filename in current locale
     */
     virtual std::string getSuitableFOpen(const std::string& filenameUtf8) const;
@@ -488,7 +488,7 @@ protected:
      *
      *  @note When you are porting Cocos2d-x to a new platform, you may need to take care of this method.
      *        You could assign a default value to _defaultResRootPath in the subclass of FileUtils(e.g. FileUtilsAndroid). Then invoke the FileUtils::init().
-     *  @return true if successed, otherwise it returns false.
+     *  @return true if succeed, otherwise it returns false.
      *
      */
     virtual bool init();
